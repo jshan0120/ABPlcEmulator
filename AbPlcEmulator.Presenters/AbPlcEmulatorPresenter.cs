@@ -15,6 +15,7 @@ using Docker.DotNet;
 using Docker.DotNet.Models;
 using CoPick.Setting;
 using System.Threading;
+using System.Buffers;
 
 namespace AbPlcEmulator.Presenters
 {
@@ -171,7 +172,7 @@ namespace AbPlcEmulator.Presenters
                     },
                     Binds = new[] { $"{_config.TagFilePath}:{_dockerTagPath}" }
                 },
-                
+                AttachStderr = true
             };
             var response = await _dockerClient.Containers.CreateContainerAsync(containerParam);
             Logger.Info($"Create ab_server Docker Container Done with ID {response.ID.Substring(1, 12)}");
@@ -185,12 +186,14 @@ namespace AbPlcEmulator.Presenters
 
             var attachParam = new ContainerAttachParameters()
             {
-                Stream = false,
+                Stream = true,
                 Stdout = true,
                 Stderr = true,
                 Stdin = false
             };
             MultiplexedStream stream = await _dockerClient.Containers.AttachContainerAsync(_dockerContainer, false, attachParam);
+            Logger.Info($"Attached ab_server Docker Container Done");
+
             await Task.Run(() => GetContainerLogs(stream));
         }
 
@@ -315,41 +318,41 @@ namespace AbPlcEmulator.Presenters
 
         private async void GetContainerLogs(MultiplexedStream stream)
         {
-            var outputStream = new MemoryStream();
-            var errorStream = new MemoryStream();
-
-            await stream.CopyOutputToAsync(null, outputStream, errorStream, CancellationToken.None);
-
-            var result = Encoding.UTF8.GetString(outputStream.ToArray());
-            if (!string.IsNullOrEmpty(result))
+            var readTask = Task.Run(async () =>
             {
-                Logger.Info(result);
-            }
+                byte[] buffer = ArrayPool<byte>.Shared.Rent(81920);
 
-            var error = Encoding.UTF8.GetString(errorStream.ToArray());
-            if (!string.IsNullOrEmpty(error))
-            {
-                Logger.Error(error);
-            }
+                try
+                {
+                    for (; ; )
+                    {
+                        MultiplexedStream.ReadResult result = await stream.ReadOutputAsync(buffer, 0, buffer.Length, CancellationToken.None);
 
-            //var logParam = new ContainerLogsParameters()
-            //{
-            //    ShowStderr = true,
-            //    ShowStdout = true,
-            //    Follow = true,
-            //    Tail = "all"
-            //};
-            //using (var stream = await _dockerClient.Containers.GetContainerLogsAsync(_dockerContainer, logParam, CancellationToken.None))
-            //{
-            //    using (var reader = new StreamReader(stream))
-            //    {
-            //        while (!reader.EndOfStream)
-            //        {
-            //            var line = await reader.ReadLineAsync();
-            //            Logger.Info(line);
-            //        }
-            //    }
-            //}
+                        if (result.EOF)
+                        {
+                            return;
+                        }
+
+                        if (result.Count == 0)
+                        {
+                            return;
+                        }
+
+                        var output = Encoding.UTF8.GetString(buffer);
+                        if (!string.IsNullOrEmpty(output))
+                        {
+                            Logger.Info(output);
+                            buffer = Enumerable.Repeat((byte)0, buffer.Length).ToArray();
+                        }
+                    }
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(buffer);
+                }
+            });
+
+            await readTask;
         }
     }
 }
