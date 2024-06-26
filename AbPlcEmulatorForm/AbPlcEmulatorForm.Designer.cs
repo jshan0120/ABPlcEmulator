@@ -210,9 +210,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 12);
+            this.label3.Size = new System.Drawing.Size(69, 12);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Operations";
+            this.label3.Text = "Connection";
             // 
             // btnOpenServer
             // 

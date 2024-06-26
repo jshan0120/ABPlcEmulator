@@ -39,7 +39,7 @@ namespace AbPlcEmulator.Models
 
             foreach (TagInfo tag in tags.Values)
             {
-                string line = $"{tag.Name}:{tag.Type}[{tag.Size}]";
+                string line = $"{tag.Name}:{tag.Type.ToString().ToUpper()}[{tag.Size}]";
                 text += line + Environment.NewLine;
             }
 
