@@ -109,7 +109,6 @@ namespace AbPlcEmulator.Presenters
             }
 
             await Task.Run(() => StartDockerContainer());
-            Logger.Info("Start ab_server Docker Container Done");
 
             _isServerOpen = true;
             _view.ShowServerOpenInfo(_isServerOpen);
@@ -170,7 +169,6 @@ namespace AbPlcEmulator.Presenters
                     {
                         { _port, portList }
                     },
-                    PublishAllPorts = true,
                     Binds = new[] { $"{_config.TagFilePath}:{_dockerTagPath}" }
                 },
                 
@@ -183,6 +181,7 @@ namespace AbPlcEmulator.Presenters
         private async void StartDockerContainer()
         {
             await _dockerClient.Containers.StartContainerAsync(_dockerContainer, new ContainerStartParameters());
+            Logger.Info("Start ab_server Docker Container Done");
 
             var attachParam = new ContainerAttachParameters()
             {
@@ -275,6 +274,12 @@ namespace AbPlcEmulator.Presenters
             {
                 try
                 {
+                    if (_isServerOpen)
+                    {
+                        Logger.Warning("Server Already Running");
+                        await Task.Run(() => KillDockerContainer());
+                    }
+
                     await Task.Run(() => RemoveDockerContainer());
 
                     Logger.Debug("Program Exited");
@@ -300,6 +305,14 @@ namespace AbPlcEmulator.Presenters
             }
         }
 
+        private async void KillDockerContainer()
+        {
+            if (!string.IsNullOrEmpty(_dockerContainer))
+            {
+                await _dockerClient.Containers.KillContainerAsync(_dockerContainer, new ContainerKillParameters());
+            }
+        }
+
         private async void GetContainerLogs(MultiplexedStream stream)
         {
             var outputStream = new MemoryStream();
@@ -308,10 +321,16 @@ namespace AbPlcEmulator.Presenters
             await stream.CopyOutputToAsync(null, outputStream, errorStream, CancellationToken.None);
 
             var result = Encoding.UTF8.GetString(outputStream.ToArray());
-            Logger.Info(result);
+            if (!string.IsNullOrEmpty(result))
+            {
+                Logger.Info(result);
+            }
 
             var error = Encoding.UTF8.GetString(errorStream.ToArray());
-            Logger.Error(error);
+            if (!string.IsNullOrEmpty(error))
+            {
+                Logger.Error(error);
+            }
 
             //var logParam = new ContainerLogsParameters()
             //{
