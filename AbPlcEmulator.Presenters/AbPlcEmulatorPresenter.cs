@@ -115,21 +115,6 @@ namespace AbPlcEmulator.Presenters
             _view.ShowServerOpenInfo(_isServerOpen);
         }
 
-        private async void GetContainerLog()
-        {
-            var logParam = new ContainerLogsParameters() { Follow = true, ShowStderr = true, ShowStdout = true, Timestamps = true };
-            Stream logStream = await _dockerClient.Containers.GetContainerLogsAsync(_dockerContainer, logParam, default);
-
-            using (var reader = new StreamReader(logStream))
-            {
-                string line = null;
-                while ((line = await reader.ReadLineAsync()) != null)
-                {
-                    Logger.Info(line);
-                }
-            }
-        }
-
         private async Task<string> CreateNewContainer()
         {
             await Task.Run(() => CreateDockerImage());
@@ -194,7 +179,7 @@ namespace AbPlcEmulator.Presenters
             MultiplexedStream stream = await _dockerClient.Containers.AttachContainerAsync(_dockerContainer, false, attachParam);
             Logger.Info($"Attached ab_server Docker Container Done");
 
-            await Task.Run(() => GetContainerLogs(stream));
+            Task.Run(() => GetContainerLogs(stream));
         }
 
         private async void View_ServerCloseRequested(object sender, EventArgs e)
