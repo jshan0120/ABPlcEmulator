@@ -125,7 +125,7 @@ namespace AbPlcEmulator.Presenters
 
         private async void CreateDockerImage()
         {
-            var imageParam = new ImagesCreateParameters() { FromImage = "jshan0120/ab_server", Tag = "1.0" };
+            var imageParam = new ImagesCreateParameters() { FromImage = "jshan0120/ab_server", Tag = "2.0" };
             var authorConfig = new AuthConfig() { Email = "jshan@cle.vision" };
             await _dockerClient.Images.CreateImageAsync(imageParam, authorConfig, new Progress<JSONMessage>());
         }
@@ -142,7 +142,7 @@ namespace AbPlcEmulator.Presenters
             };
             var containerParam = new CreateContainerParameters()
             {
-                Image = "jshan0120/ab_server:1.0",
+                Image = "jshan0120/ab_server:2.0",
                 AttachStdout = true,
                 ExposedPorts = new Dictionary<string, EmptyStruct>
                 {
@@ -250,10 +250,11 @@ namespace AbPlcEmulator.Presenters
             }
 
             await Task.Run(() => RemoveDockerContainer());
-            Logger.Info("Remove Existing Container Done");
 
-            TagFileManager.SaveToFile(_config.TagFilePath, _tags);
+            TagFileManager.SaveToFile(_config.TagFilePath, e.Tags);
             Logger.Info($"Save Tags To Path {_config.TagFilePath} Succeed");
+
+            _view.ShowTagConfirmed();
         }
 
         private async void View_ProgramExitRequested(object sender, FormClosingEventArgs e)
@@ -290,6 +291,7 @@ namespace AbPlcEmulator.Presenters
             {
                 await _dockerClient.Containers.RemoveContainerAsync(_dockerContainer, new ContainerRemoveParameters());
                 _dockerContainer = string.Empty;
+                Logger.Info("Remove Existing Container Done");
             }
         }
 
