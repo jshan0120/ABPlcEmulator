@@ -16,6 +16,7 @@ using Docker.DotNet.Models;
 using CoPick.Setting;
 using System.Threading;
 using System.Buffers;
+using libplctag;
 
 namespace AbPlcEmulator.Presenters
 {
@@ -44,6 +45,8 @@ namespace AbPlcEmulator.Presenters
 
         private object _cellValue = null;
 
+        private TagWriter _tagWriter;
+
         public AbPlcEmulatorPresenter(IAbPlcEmulatorView view, Models.Config config)
         {
             _view = view;
@@ -60,11 +63,13 @@ namespace AbPlcEmulator.Presenters
             _view.TagChangingStarted += View_TagChangingStarted;
             _view.TagInvalidInputRequired += View_TagInvalidInputRequired;
             _view.ProgramExitRequested += View_ProgramExitRequested;
+            _view.SetTagValueRequested += View_SetTagValueRequested;
 
             GetIpAddress();
             if (!string.IsNullOrEmpty(_ip))
             {
                 _serverInfo = new ServerInfo(_ip, _port);
+                _tagWriter = new TagWriter(_ip);
                 InitUi();
             }
         }
@@ -255,6 +260,20 @@ namespace AbPlcEmulator.Presenters
             Logger.Info($"Save Tags To Path {_config.TagFilePath} Succeed");
 
             _view.ShowTagConfirmed();
+        }
+
+        private void View_SetTagValueRequested(object sender, SetTagValueEventArgs e)
+        {
+            if (_isServerOpen)
+            {
+                TagInfo tagInfo = e.Tag;
+                _tagWriter.TagWrite(tagInfo.Type, tagInfo.Name, tagInfo.Value);
+            }
+            else
+            {
+                Logger.Error("Write Value To Tag Failed, Server Not Opened");
+                _view.RetriveInvalidValue(e.ColumnIndex, e.RowIndex, _cellValue);
+            }
         }
 
         private async void View_ProgramExitRequested(object sender, FormClosingEventArgs e)

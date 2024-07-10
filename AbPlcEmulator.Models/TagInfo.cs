@@ -60,6 +60,37 @@ namespace AbPlcEmulator.Models
             }
         }
 
+        public void SetValue(string value)
+        {
+            switch (Type)
+            {
+                case TagTypes.Sint:
+                    Value = byte.Parse(value);
+                    break;
+                case TagTypes.Int:
+                    Value = short.Parse(value);
+                    break;
+                case TagTypes.Dint:
+                    Value = int.Parse(value);
+                    break;
+                case TagTypes.Lint:
+                    Value = long.Parse(value);
+                    break;
+                case TagTypes.Real:
+                    Value = float.Parse(value);
+                    break;
+                case TagTypes.Lreal:
+                    Value = double.Parse(value);
+                    break;
+                case TagTypes.String:
+                    Value = value;
+                    break;
+                case TagTypes.Bool:
+                    Value = bool.Parse(value.ToLower());
+                    break;
+            }
+        }
+
         private TagTypes GetTagType(string name)
         {
             if (name == "SINT")

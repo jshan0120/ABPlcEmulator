@@ -17,6 +17,7 @@ namespace AbPlcEmulator.View
         event EventHandler<CellChangedEventArgs> TagChangingStarted;
         event EventHandler<CellChangedEventArgs> TagInvalidInputRequired;
         event EventHandler<FormClosingEventArgs> ProgramExitRequested;
+        event EventHandler<SetTagValueEventArgs> SetTagValueRequested;
 
         object ServerInfoGridDataSource { set; }
         string TagFilePath { get; set; }

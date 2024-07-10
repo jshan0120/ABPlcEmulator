@@ -42,6 +42,7 @@
     <Compile Include="CellChangedEventArgs.cs" />
     <Compile Include="ChangedTagsEventArgs.cs" />
     <Compile Include="IAbPlcEmulatorView.cs" />
+    <Compile Include="SetTagValueEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbPlcEmulator.Models\AbPlcEmulator.Models.csproj">

@@ -26,6 +26,9 @@ namespace AbPlcEmulatorForm
         public event EventHandler<CellChangedEventArgs> TagChangingStarted;
         public event EventHandler<CellChangedEventArgs> TagInvalidInputRequired;
         public event EventHandler<FormClosingEventArgs> ProgramExitRequested;
+        public event EventHandler<SetTagValueEventArgs> SetTagValueRequested;
+
+        bool RetriveValue = false;
 
         public object ServerInfoGridDataSource
         {
@@ -87,13 +90,24 @@ namespace AbPlcEmulatorForm
 
             DataGridViewColumn valueCol = new DataGridViewColumn();
             valueCol.Name = "Value";
+            valueCol.ValueType = typeof(string);
             valueCol.CellTemplate = new DataGridViewTextBoxCell();
             dgvTags.Columns.Add(valueCol);
         }
 
         private void btnOpenServer_Click(object sender, EventArgs e)
         {
-            ServerOpenRequested?.Invoke(this, EventArgs.Empty);
+            if (btnChangeTags.BackColor == Color.Tomato)
+            {
+                if (DialogResult.Yes == MessageBox.Show("Open Server Not Reflecting Changes?", "Warning", MessageBoxButtons.YesNo))
+                {
+                    ServerOpenRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            else
+            {
+                ServerOpenRequested?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void btnCloseServer_Click(object sender, EventArgs e)
@@ -149,6 +163,7 @@ namespace AbPlcEmulatorForm
         {
             this.InvokeIfNeeded(() =>
             {
+                RetriveValue = true;
                 dgvTags[columnIndex, rowIndex].Value = value;
             });
         }
@@ -180,7 +195,7 @@ namespace AbPlcEmulatorForm
             }
 
             TagInfo tag = new TagInfo(tbTagName.Text, (TagTypes)cmbTagType.SelectedValue, tagSize);
-            dgvTags.Rows.Add(tag.Name, tag.Type, tag.Size, tag.Value);
+            dgvTags.Rows.Add(tag.Name, tag.Type, tag.Size, tag.Value.ToString());
         }
 
         private void btnDeleteTag_Click(object sender, EventArgs e)
@@ -191,51 +206,91 @@ namespace AbPlcEmulatorForm
             }
         }
 
-        private bool CheckInvalidValue(TagTypes tagType, object value)
+        private bool CheckInvalidValue(TagTypes tagType, string value)
         {
             switch (tagType)
             {
                 case TagTypes.Sint:
-                    return value is byte;
+                    return byte.TryParse(value, out byte resByte);
                 case TagTypes.Int:
-                    return value is short;
+                    return short.TryParse(value, out short resShort);
                 case TagTypes.Dint:
-                    return value is int;
+                    return int.TryParse(value, out int resInt);
                 case TagTypes.Lint:
-                    return value is long;
+                    return long.TryParse(value, out long resLong);
                 case TagTypes.String:
-                    return value is string;
+                    return true;
                 case TagTypes.Real:
-                    return value is float;
+                    return float.TryParse(value, out float resFloat);
                 case TagTypes.Lreal:
-                    return value is double;
+                    return double.TryParse(value, out double resDouble);
                 case TagTypes.Bool:
-                    return value is bool;
+                    return bool.TryParse(value.ToLower(), out bool resBool);
                 default:
                     return false;
             }
         }
 
+
         private void dgvTags_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
+        { 
+            if (RetriveValue)
+            {
+                RetriveValue = false;
+                return;
+            }
+
             if (e.ColumnIndex == 3)
             {
                 TagTypes type = (TagTypes)dgvTags[1, e.RowIndex].Value;
-                object value = dgvTags[e.ColumnIndex, e.RowIndex].Value;
+                string value = dgvTags[e.ColumnIndex, e.RowIndex].Value.ToString();
                 if (!CheckInvalidValue(type, value))
                 {
                     MessageBox.Show("Invalid Value");
                     TagInvalidInputRequired?.Invoke(this, new CellChangedEventArgs(e.ColumnIndex, e.RowIndex, value));
-                    btnChangeTags.BackColor = Color.LimeGreen;
                 }
                 else
                 {
-                    btnChangeTags.BackColor = Color.Tomato;
+                    TagInfo tag = new TagInfo((string)dgvTags[0, e.RowIndex].Value, type, (int)dgvTags[2, e.RowIndex].Value);
+                    tag.SetValue(value);
+                    SetTagValueRequested?.Invoke(this, new SetTagValueEventArgs(tag, e.ColumnIndex, e.RowIndex));
+                }
+            }
+            else if (e.ColumnIndex == 1)
+            {
+                if ((TagTypes)dgvTags[1, e.RowIndex].Value == TagTypes.None)
+                {
+                    TagInvalidInputRequired?.Invoke(this, new CellChangedEventArgs(e.ColumnIndex, e.RowIndex, dgvTags[e.ColumnIndex, e.RowIndex].Value.ToString()));
+                }
+                else
+                {
+                    if (btnOpenServer.Enabled)
+                    {
+                        btnChangeTags.BackColor = Color.Tomato;
+
+                        TagTypes type = (TagTypes)dgvTags[1, e.RowIndex].Value;
+                        TagInfo tag = new TagInfo((string)dgvTags[0, e.RowIndex].Value, type, (int)dgvTags[2, e.RowIndex].Value);
+                        dgvTags.Rows.RemoveAt(e.RowIndex);
+                        dgvTags.Rows.Insert(e.RowIndex, new object[] { tag.Name, type, tag.Size, tag.Value });
+                    }
+                    else
+                    {
+                        MessageBox.Show("Server Already Running");
+                        TagInvalidInputRequired?.Invoke(this, new CellChangedEventArgs(e.ColumnIndex, e.RowIndex, dgvTags[e.ColumnIndex, e.RowIndex].Value.ToString()));
+                    }
                 }
             }
             else
             {
-                btnChangeTags.BackColor = Color.Tomato;
+                if (btnOpenServer.Enabled)
+                {
+                    btnChangeTags.BackColor = Color.Tomato;
+                }
+                else
+                {
+                    MessageBox.Show("Server Already Running");
+                    TagInvalidInputRequired?.Invoke(this, new CellChangedEventArgs(e.ColumnIndex, e.RowIndex, dgvTags[e.ColumnIndex, e.RowIndex].Value.ToString()));
+                }
             }
         }
 

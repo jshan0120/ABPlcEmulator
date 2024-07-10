@@ -35,6 +35,7 @@
             this.serverInfoGrid = new System.Windows.Forms.PropertyGrid();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panelConnection = new System.Windows.Forms.Panel();
             this.btnChangeTags = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnOpenServer = new System.Windows.Forms.Button();
@@ -46,25 +47,24 @@
             this.btnBrowseTagPath = new System.Windows.Forms.Button();
             this.tbTagPath = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.dgvTags = new System.Windows.Forms.DataGridView();
-            this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.openFileDialogTagPath = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.tbTagName = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbTagType = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbTagSize = new System.Windows.Forms.TextBox();
-            this.btnAddTag = new System.Windows.Forms.Button();
+            this.dgvTags = new System.Windows.Forms.DataGridView();
             this.btnDeleteTag = new System.Windows.Forms.Button();
+            this.btnAddTag = new System.Windows.Forms.Button();
+            this.tbTagSize = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbTagType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbTagName = new System.Windows.Forms.TextBox();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.lblTagTypeInfosLeft = new System.Windows.Forms.Label();
             this.lblTagTypeInfosRight = new System.Windows.Forms.Label();
-            this.panelConnection = new System.Windows.Forms.Panel();
+            this.lblTagTypeInfosLeft = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.openFileDialogTagPath = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -88,11 +88,11 @@
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
@@ -194,6 +194,15 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(161, 160);
             this.panel2.TabIndex = 0;
+            // 
+            // panelConnection
+            // 
+            this.panelConnection.BackColor = System.Drawing.Color.Tomato;
+            this.panelConnection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelConnection.Location = new System.Drawing.Point(81, 10);
+            this.panelConnection.Name = "panelConnection";
+            this.panelConnection.Size = new System.Drawing.Size(63, 16);
+            this.panelConnection.TabIndex = 1;
             // 
             // btnChangeTags
             // 
@@ -317,34 +326,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Tag FilePath";
             // 
-            // dgvTags
-            // 
-            this.dgvTags.AllowUserToAddRows = false;
-            this.dgvTags.AllowUserToDeleteRows = false;
-            this.dgvTags.AllowUserToResizeRows = false;
-            this.dgvTags.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgvTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTags.Location = new System.Drawing.Point(0, 0);
-            this.dgvTags.Name = "dgvTags";
-            this.dgvTags.RowTemplate.Height = 23;
-            this.dgvTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTags.Size = new System.Drawing.Size(932, 433);
-            this.dgvTags.TabIndex = 0;
-            this.dgvTags.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTags_CellValueChanged);
-            this.dgvTags.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvTags_DataError);
-            this.dgvTags.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvTags_RowsAdded);
-            this.dgvTags.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvTags_RowsRemoved);
-            // 
-            // rtbLog
-            // 
-            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbLog.Location = new System.Drawing.Point(0, 0);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(541, 644);
-            this.rtbLog.TabIndex = 0;
-            this.rtbLog.Text = "";
-            // 
             // splitContainer6
             // 
             this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -371,63 +352,34 @@
             this.splitContainer6.SplitterDistance = 433;
             this.splitContainer6.TabIndex = 0;
             // 
-            // tbTagName
+            // dgvTags
             // 
-            this.tbTagName.Location = new System.Drawing.Point(318, 22);
-            this.tbTagName.Name = "tbTagName";
-            this.tbTagName.Size = new System.Drawing.Size(241, 21);
-            this.tbTagName.TabIndex = 0;
+            this.dgvTags.AllowUserToAddRows = false;
+            this.dgvTags.AllowUserToDeleteRows = false;
+            this.dgvTags.AllowUserToResizeRows = false;
+            this.dgvTags.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgvTags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTags.Location = new System.Drawing.Point(0, 0);
+            this.dgvTags.Name = "dgvTags";
+            this.dgvTags.RowTemplate.Height = 23;
+            this.dgvTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvTags.Size = new System.Drawing.Size(932, 433);
+            this.dgvTags.TabIndex = 0;
+            this.dgvTags.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTags_CellValueChanged);
+            this.dgvTags.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvTags_DataError);
+            this.dgvTags.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvTags_RowsAdded);
+            this.dgvTags.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvTags_RowsRemoved);
             // 
-            // label5
+            // btnDeleteTag
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 12);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "New Tag |";
-            // 
-            // cmbTagType
-            // 
-            this.cmbTagType.FormattingEnabled = true;
-            this.cmbTagType.Location = new System.Drawing.Point(137, 23);
-            this.cmbTagType.Name = "cmbTagType";
-            this.cmbTagType.Size = new System.Drawing.Size(121, 20);
-            this.cmbTagType.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(97, 27);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 12);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Type";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(273, 27);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 12);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Name";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(576, 27);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 12);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Size";
-            // 
-            // tbTagSize
-            // 
-            this.tbTagSize.Location = new System.Drawing.Point(612, 22);
-            this.tbTagSize.Name = "tbTagSize";
-            this.tbTagSize.Size = new System.Drawing.Size(100, 21);
-            this.tbTagSize.TabIndex = 4;
+            this.btnDeleteTag.Location = new System.Drawing.Point(830, 23);
+            this.btnDeleteTag.Name = "btnDeleteTag";
+            this.btnDeleteTag.Size = new System.Drawing.Size(78, 23);
+            this.btnDeleteTag.TabIndex = 5;
+            this.btnDeleteTag.Text = "Delete";
+            this.btnDeleteTag.UseVisualStyleBackColor = true;
+            this.btnDeleteTag.Click += new System.EventHandler(this.btnDeleteTag_Click);
             // 
             // btnAddTag
             // 
@@ -439,15 +391,63 @@
             this.btnAddTag.UseVisualStyleBackColor = true;
             this.btnAddTag.Click += new System.EventHandler(this.btnAddTag_Click);
             // 
-            // btnDeleteTag
+            // tbTagSize
             // 
-            this.btnDeleteTag.Location = new System.Drawing.Point(830, 23);
-            this.btnDeleteTag.Name = "btnDeleteTag";
-            this.btnDeleteTag.Size = new System.Drawing.Size(78, 23);
-            this.btnDeleteTag.TabIndex = 5;
-            this.btnDeleteTag.Text = "Delete";
-            this.btnDeleteTag.UseVisualStyleBackColor = true;
-            this.btnDeleteTag.Click += new System.EventHandler(this.btnDeleteTag_Click);
+            this.tbTagSize.Location = new System.Drawing.Point(612, 22);
+            this.tbTagSize.Name = "tbTagSize";
+            this.tbTagSize.Size = new System.Drawing.Size(100, 21);
+            this.tbTagSize.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(576, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 12);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Size";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(273, 27);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 12);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Name";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(97, 27);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 12);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Type";
+            // 
+            // cmbTagType
+            // 
+            this.cmbTagType.FormattingEnabled = true;
+            this.cmbTagType.Location = new System.Drawing.Point(137, 23);
+            this.cmbTagType.Name = "cmbTagType";
+            this.cmbTagType.Size = new System.Drawing.Size(121, 20);
+            this.cmbTagType.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(24, 27);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 12);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "New Tag |";
+            // 
+            // tbTagName
+            // 
+            this.tbTagName.Location = new System.Drawing.Point(318, 22);
+            this.tbTagName.Name = "tbTagName";
+            this.tbTagName.Size = new System.Drawing.Size(241, 21);
+            this.tbTagName.TabIndex = 0;
             // 
             // splitContainer7
             // 
@@ -467,6 +467,15 @@
             this.splitContainer7.SplitterDistance = 644;
             this.splitContainer7.TabIndex = 1;
             // 
+            // rtbLog
+            // 
+            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLog.Location = new System.Drawing.Point(0, 0);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(541, 644);
+            this.rtbLog.TabIndex = 0;
+            this.rtbLog.Text = "";
+            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -478,14 +487,13 @@
             this.panel4.Size = new System.Drawing.Size(540, 110);
             this.panel4.TabIndex = 0;
             // 
-            // label9
+            // lblTagTypeInfosRight
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 12);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 12);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Tag Types";
+            this.lblTagTypeInfosRight.AutoSize = true;
+            this.lblTagTypeInfosRight.Location = new System.Drawing.Point(268, 41);
+            this.lblTagTypeInfosRight.Name = "lblTagTypeInfosRight";
+            this.lblTagTypeInfosRight.Size = new System.Drawing.Size(0, 12);
+            this.lblTagTypeInfosRight.TabIndex = 1;
             // 
             // lblTagTypeInfosLeft
             // 
@@ -495,22 +503,14 @@
             this.lblTagTypeInfosLeft.Size = new System.Drawing.Size(0, 12);
             this.lblTagTypeInfosLeft.TabIndex = 1;
             // 
-            // lblTagTypeInfosRight
+            // label9
             // 
-            this.lblTagTypeInfosRight.AutoSize = true;
-            this.lblTagTypeInfosRight.Location = new System.Drawing.Point(268, 41);
-            this.lblTagTypeInfosRight.Name = "lblTagTypeInfosRight";
-            this.lblTagTypeInfosRight.Size = new System.Drawing.Size(0, 12);
-            this.lblTagTypeInfosRight.TabIndex = 1;
-            // 
-            // panelConnection
-            // 
-            this.panelConnection.BackColor = System.Drawing.Color.Tomato;
-            this.panelConnection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelConnection.Location = new System.Drawing.Point(81, 10);
-            this.panelConnection.Name = "panelConnection";
-            this.panelConnection.Size = new System.Drawing.Size(63, 16);
-            this.panelConnection.TabIndex = 1;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(9, 12);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 12);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Tag Types";
             // 
             // AbPlcEmulatorForm
             // 
@@ -549,12 +549,12 @@
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTags)).EndInit();
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel2.ResumeLayout(false);
             this.splitContainer6.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTags)).EndInit();
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
