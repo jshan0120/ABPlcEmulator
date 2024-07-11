@@ -19,7 +19,7 @@ namespace AbPlcEmulatorForm
         [STAThread]
         static void Main()
         {
-            if (System.Diagnostics.Process.GetProcessesByName("AbPlcEmulator").Length > 1)
+            if (System.Diagnostics.Process.GetProcessesByName("AbPlcEmulatorForm").Length > 1)
             {
                 MessageBox.Show("Program is already running.", "WARNING");
                 return;
