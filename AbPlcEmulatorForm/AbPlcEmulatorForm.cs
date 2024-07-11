@@ -129,6 +129,12 @@ namespace AbPlcEmulatorForm
 
         private void btnBrowseTagPath_Click(object sender, EventArgs e)
         {
+            if (!btnOpenServer.Enabled)
+            {
+                Logger.Warning("Server Already Running");
+                return;
+            }
+
             if (openFileDialogTagPath.ShowDialog() == DialogResult.OK)
             {
                 tbTagPath.Text = openFileDialogTagPath.FileName;
