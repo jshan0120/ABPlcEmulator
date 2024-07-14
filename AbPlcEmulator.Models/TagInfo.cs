@@ -65,7 +65,7 @@ namespace AbPlcEmulator.Models
             switch (Type)
             {
                 case TagTypes.Sint:
-                    Value = byte.Parse(value);
+                    Value = sbyte.Parse(value);
                     break;
                 case TagTypes.Int:
                     Value = short.Parse(value);

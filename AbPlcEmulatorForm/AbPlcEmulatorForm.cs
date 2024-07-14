@@ -217,7 +217,7 @@ namespace AbPlcEmulatorForm
             switch (tagType)
             {
                 case TagTypes.Sint:
-                    return byte.TryParse(value, out byte resByte);
+                    return sbyte.TryParse(value, out sbyte resByte);
                 case TagTypes.Int:
                     return short.TryParse(value, out short resShort);
                 case TagTypes.Dint:
