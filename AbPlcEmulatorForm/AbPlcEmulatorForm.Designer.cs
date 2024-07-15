@@ -302,7 +302,7 @@
             // 
             // btnBrowseTagPath
             // 
-            this.btnBrowseTagPath.Location = new System.Drawing.Point(744, 14);
+            this.btnBrowseTagPath.Location = new System.Drawing.Point(890, 14);
             this.btnBrowseTagPath.Name = "btnBrowseTagPath";
             this.btnBrowseTagPath.Size = new System.Drawing.Size(25, 23);
             this.btnBrowseTagPath.TabIndex = 2;
@@ -315,7 +315,7 @@
             this.tbTagPath.Location = new System.Drawing.Point(117, 14);
             this.tbTagPath.Name = "tbTagPath";
             this.tbTagPath.ReadOnly = true;
-            this.tbTagPath.Size = new System.Drawing.Size(621, 21);
+            this.tbTagPath.Size = new System.Drawing.Size(767, 21);
             this.tbTagPath.TabIndex = 1;
             // 
             // label2

@@ -289,6 +289,8 @@ namespace AbPlcEmulator.Presenters
                     }
 
                     await Task.Run(() => RemoveDockerContainer());
+                    string path = ConfigFileManager.GetConfigFilePath();
+                    ConfigFileManager.SaveToFile(_config, path);
 
                     Logger.Debug("Program Exited");
                 }
