@@ -27,6 +27,7 @@ namespace AbPlcEmulatorForm
         public event EventHandler<CellChangedEventArgs> TagInvalidInputRequired;
         public event EventHandler<FormClosingEventArgs> ProgramExitRequested;
         public event EventHandler<SetTagValueEventArgs> SetTagValueRequested;
+        public event EventHandler<ChangedTagsEventArgs> ShowValuesRequested;
 
         bool RetriveValue = false;
 
@@ -117,13 +118,7 @@ namespace AbPlcEmulatorForm
 
         private void btnChangeTags_Click(object sender, EventArgs e)
         {
-            Dictionary<string, TagInfo> tags = new Dictionary<string, TagInfo>();
-            foreach (DataGridViewRow row in dgvTags.Rows)
-            {
-                string name = (string)row.Cells[0].Value;
-                TagInfo tag = new TagInfo(name, (TagTypes)row.Cells[1].Value, (int)row.Cells[2].Value);
-                tags.Add(name, tag);
-            }
+            Dictionary<string, TagInfo> tags = GetAllTags();
             ConfirmTagRequested?.Invoke(this, new ChangedTagsEventArgs(tags));
         }
 
@@ -340,6 +335,35 @@ namespace AbPlcEmulatorForm
         private void AbPlcEmulatorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ProgramExitRequested?.Invoke(this, e);
+        }
+
+        private Dictionary<string, TagInfo> GetAllTags()
+        {
+            Dictionary<string, TagInfo> tags = new Dictionary<string, TagInfo>();
+            foreach (DataGridViewRow row in dgvTags.Rows)
+            {
+                string name = (string)row.Cells[0].Value;
+                TagInfo tag = new TagInfo(name, (TagTypes)row.Cells[1].Value, (int)row.Cells[2].Value);
+                tags.Add(name, tag);
+            }
+            return tags;
+        }
+
+        private void btnShowValues_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, TagInfo> tags = GetAllTags();
+            ShowValuesRequested?.Invoke(this, new ChangedTagsEventArgs(tags));
+        }
+
+        public void ShowValues(Dictionary<string, string> values)
+        {
+            this.InvokeIfNeeded(() =>
+            {
+                foreach (DataGridViewRow row in dgvTags.Rows)
+                {
+                    row.Cells[3].Value = values[row.Cells[0].Value.ToString()];
+                }
+            });
         }
     }
 }

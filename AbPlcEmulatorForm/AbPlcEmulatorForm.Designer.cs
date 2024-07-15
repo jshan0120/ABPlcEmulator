@@ -66,6 +66,7 @@
             this.lblTagTypeInfosLeft = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.openFileDialogTagPath = new System.Windows.Forms.OpenFileDialog();
+            this.btnShowValues = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -262,6 +263,7 @@
             // 
             // splitContainer4.Panel1
             // 
+            this.splitContainer4.Panel1.Controls.Add(this.btnShowValues);
             this.splitContainer4.Panel1.Controls.Add(this.label4);
             // 
             // splitContainer4.Panel2
@@ -513,6 +515,16 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Tag Types";
             // 
+            // btnShowValues
+            // 
+            this.btnShowValues.Location = new System.Drawing.Point(816, 6);
+            this.btnShowValues.Name = "btnShowValues";
+            this.btnShowValues.Size = new System.Drawing.Size(109, 23);
+            this.btnShowValues.TabIndex = 1;
+            this.btnShowValues.Text = "Show Values";
+            this.btnShowValues.UseVisualStyleBackColor = true;
+            this.btnShowValues.Click += new System.EventHandler(this.btnShowValues_Click);
+            // 
             // AbPlcEmulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -606,6 +618,7 @@
         private System.Windows.Forms.Label lblTagTypeInfosLeft;
         private System.Windows.Forms.Label lblTagTypeInfosRight;
         private System.Windows.Forms.Panel panelConnection;
+        private System.Windows.Forms.Button btnShowValues;
     }
 }
 

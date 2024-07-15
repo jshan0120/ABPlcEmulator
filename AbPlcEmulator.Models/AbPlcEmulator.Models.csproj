@@ -47,6 +47,7 @@
     <Compile Include="TagFileManager.cs" />
     <Compile Include="TagFilePathChangedEventArgs.cs" />
     <Compile Include="TagInfo.cs" />
+    <Compile Include="TagReader.cs" />
     <Compile Include="TagWriter.cs" />
   </ItemGroup>
   <ItemGroup>

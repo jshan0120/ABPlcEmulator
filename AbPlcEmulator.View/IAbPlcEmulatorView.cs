@@ -18,6 +18,7 @@ namespace AbPlcEmulator.View
         event EventHandler<CellChangedEventArgs> TagInvalidInputRequired;
         event EventHandler<FormClosingEventArgs> ProgramExitRequested;
         event EventHandler<SetTagValueEventArgs> SetTagValueRequested;
+        event EventHandler<ChangedTagsEventArgs> ShowValuesRequested;
 
         object ServerInfoGridDataSource { set; }
         string TagFilePath { get; set; }
@@ -29,5 +30,7 @@ namespace AbPlcEmulator.View
         void ShowTagConfirmed();
 
         void ShowServerOpenInfo(bool serverOpened);
+
+        void ShowValues(Dictionary<string, string> values);
     }
 }

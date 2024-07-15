@@ -36,16 +36,14 @@ namespace AbPlcEmulator.Presenters
 
         private bool _isServerOpen = false;
 
-        private ProcessStartInfo _dockerProcessInfo;
-        private Process _dockerProcess;
         private string _dockerTagPath = "/usr/libplctag/build/bin_dist/tags.txt";
         private DockerClient _dockerClient = null;
         private string _dockerContainer = string.Empty;
-        private IImageOperations _image = null;
 
         private object _cellValue = null;
 
         private TagWriter _tagWriter;
+        private TagReader _tagReader;
 
         public AbPlcEmulatorPresenter(IAbPlcEmulatorView view, Models.Config config)
         {
@@ -64,12 +62,14 @@ namespace AbPlcEmulator.Presenters
             _view.TagInvalidInputRequired += View_TagInvalidInputRequired;
             _view.ProgramExitRequested += View_ProgramExitRequested;
             _view.SetTagValueRequested += View_SetTagValueRequested;
+            _view.ShowValuesRequested += View_ShowValuesRequested;
 
             GetIpAddress();
             if (!string.IsNullOrEmpty(_ip))
             {
                 _serverInfo = new ServerInfo(_ip, _port);
                 _tagWriter = new TagWriter(_ip);
+                _tagReader = new TagReader(_ip);
                 InitUi();
             }
         }
@@ -274,6 +274,22 @@ namespace AbPlcEmulator.Presenters
                 Logger.Error("Write Value To Tag Failed, Server Not Opened");
                 _view.RetriveInvalidValue(e.ColumnIndex, e.RowIndex, _cellValue);
             }
+        }
+
+        private void View_ShowValuesRequested(object sender, ChangedTagsEventArgs e)
+        {
+            if (!_isServerOpen)
+            {
+                Logger.Warning("Server Not Opened");
+                return;
+            }
+
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            foreach (TagInfo tagInfo in e.Tags.Values)
+            {
+                values.Add(tagInfo.Name, _tagReader.TagRead(tagInfo.Type, tagInfo.Name));
+            }
+            _view.ShowValues(values);
         }
 
         private async void View_ProgramExitRequested(object sender, FormClosingEventArgs e)
