@@ -1,20 +1,20 @@
-### ABPlcEmulator provides server using libplctag Library.
+# ABPlcEmulator provides server using libplctag Library.
 This program automatically open server with tags so that the user can simulate plc and test custom programs.
 
 
-### Using Docker Image
+## Using Docker Image
   **jshan0120/ab_server:4.0**
   The image was build from: https://github.com/jshan0120/libplctag (Dockerfile not included here)
 
 
-### Create Tag file
+## Create Tag file
 **Tag Format**
 
-  TAG_NAME:TAG_TYPE[ELEM_SIZE]
+  TAG_NAME:TAG_TYPE[ELEM_SIZE]  
   
 **Element Size**
 
-  Can create maximum 3 dimentions using ,(comma)
+  Can create maximum 3 dimentions using ,(comma)  
   
 **Tag Type**
 
@@ -25,10 +25,10 @@ This program automatically open server with tags so that the user can simulate p
 - REAL : 4-byte floating point number
 - LREAL : 8-byte floating point number
 - STRING : 82-byte string
-- BOOL : 1-byte boolean value
+- BOOL : 1-byte boolean value  
 
 
-### Maunual
+## Maunual
 - Set Tag FilePath to use
 - Add New Tags
 - Confirm Tag before open server when the settings of tags modified
