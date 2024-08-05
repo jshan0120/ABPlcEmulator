@@ -1,4 +1,5 @@
-﻿using libplctag;
+﻿using CoPick.Logging;
+using libplctag;
 using libplctag.DataTypes.Simple;
 using System;
 using System.Collections.Generic;
@@ -23,26 +24,49 @@ namespace AbPlcEmulator.Models
 
         public string TagRead(TagTypes type, string name)
         {
-            switch (type)
+            try
             {
-                case TagTypes.Sint:
-                    return ReadSintTag(name);
-                case TagTypes.Int:
-                    return ReadIntTag(name);
-                case TagTypes.Dint:
-                    return ReadDintTag(name);
-                case TagTypes.Lint:
-                    return ReadLintTag(name);
-                case TagTypes.Real:
-                    return ReadRealTag(name);
-                case TagTypes.Lreal:
-                    return ReadLrealTag(name);
-                case TagTypes.String:
-                    return ReadStringTag(name);
-                case TagTypes.Bool:
-                    return ReadBoolTag(name);
-                default:
-                    return "";
+                switch (type)
+                {
+                    case TagTypes.Sint:
+                        return ReadSintTag(name);
+                    case TagTypes.Int:
+                        return ReadIntTag(name);
+                    case TagTypes.Dint:
+                        return ReadDintTag(name);
+                    case TagTypes.Lint:
+                        return ReadLintTag(name);
+                    case TagTypes.Real:
+                        return ReadRealTag(name);
+                    case TagTypes.Lreal:
+                        return ReadLrealTag(name);
+                    case TagTypes.String:
+                        return ReadStringTag(name);
+                    case TagTypes.Bool:
+                        return ReadBoolTag(name);
+                    default:
+                        return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Logger.Warning($"Read Values From Tags Failed: {ex}");
+                switch (type)
+                {
+                    case TagTypes.Sint:
+                    case TagTypes.Int:
+                    case TagTypes.Dint:
+                    case TagTypes.Lint:
+                    case TagTypes.Real:
+                    case TagTypes.Lreal:
+                        return "0";
+                    case TagTypes.String:
+                        return "";
+                    case TagTypes.Bool:
+                        return "False";
+                    default:
+                        return "";
+                }
             }
         }
 

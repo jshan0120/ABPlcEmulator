@@ -1,4 +1,5 @@
-﻿using libplctag;
+﻿using CoPick.Logging;
+using libplctag;
 using libplctag.DataTypes.Simple;
 using System;
 using System.Collections.Generic;
@@ -24,32 +25,39 @@ namespace AbPlcEmulator.Models
 
         public void TagWrite(TagTypes type, string name, object value)
         {
-            switch (type)
+            try
             {
-                case TagTypes.Sint:
-                    WriteSintTag(name, value);
-                    break;
-                case TagTypes.Int:
-                    WriteIntTag(name, value);
-                    break;
-                case TagTypes.Dint:
-                    WriteDintTag(name, value);
-                    break;
-                case TagTypes.Lint:
-                    WriteLintTag(name, value);
-                    break;
-                case TagTypes.Real:
-                    WriteRealTag(name, value);
-                    break;
-                case TagTypes.Lreal:
-                    WriteLrealTag(name, value);
-                    break;
-                case TagTypes.String:
-                    WriteStringTag(name, value);
-                    break;
-                case TagTypes.Bool:
-                    WriteBoolTag(name, value);
-                    break;
+                switch (type)
+                {
+                    case TagTypes.Sint:
+                        WriteSintTag(name, value);
+                        break;
+                    case TagTypes.Int:
+                        WriteIntTag(name, value);
+                        break;
+                    case TagTypes.Dint:
+                        WriteDintTag(name, value);
+                        break;
+                    case TagTypes.Lint:
+                        WriteLintTag(name, value);
+                        break;
+                    case TagTypes.Real:
+                        WriteRealTag(name, value);
+                        break;
+                    case TagTypes.Lreal:
+                        WriteLrealTag(name, value);
+                        break;
+                    case TagTypes.String:
+                        WriteStringTag(name, value);
+                        break;
+                    case TagTypes.Bool:
+                        WriteBoolTag(name, value);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Logger.Warning($"Write Value To Tag Failed: {ex}");
             }
         }
 
