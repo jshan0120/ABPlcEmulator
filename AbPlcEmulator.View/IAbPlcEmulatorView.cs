@@ -20,6 +20,7 @@ namespace AbPlcEmulator.View
         event EventHandler<SetTagValueEventArgs> SetTagValueRequested;
         event EventHandler<ChangedTagsEventArgs> ShowValuesRequested;
 
+        bool IsServerOpening { get; set; }
         object ServerInfoGridDataSource { set; }
         string TagFilePath { get; set; }
 
@@ -32,5 +33,7 @@ namespace AbPlcEmulator.View
         void ShowServerOpenInfo(bool serverOpened);
 
         void ShowValues(Dictionary<string, string> values);
+
+        void ShowDefaultValues();
     }
 }

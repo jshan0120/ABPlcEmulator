@@ -35,6 +35,7 @@ namespace AbPlcEmulator.Presenters
         private string _port = "44818";
 
         private bool _isServerOpen = false;
+        private bool _isServerOpening = false;
 
         private string _dockerTagPath = "/usr/libplctag/build/bin_dist/tags.txt";
         private DockerClient _dockerClient = null;
@@ -103,6 +104,8 @@ namespace AbPlcEmulator.Presenters
         private async void View_ServerOpenRequested(object sender, EventArgs e)
         {
             Logger.Info("Open Server Requested");
+            _view.IsServerOpening = true;
+            _view.ShowDefaultValues();
 
             if (_dockerClient == null)
             {
@@ -116,6 +119,7 @@ namespace AbPlcEmulator.Presenters
 
             await Task.Run(() => StartDockerContainer());
 
+            _view.IsServerOpening = false;
             _isServerOpen = true;
             _view.ShowServerOpenInfo(_isServerOpen);
         }

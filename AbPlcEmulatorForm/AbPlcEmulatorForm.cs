@@ -30,6 +30,7 @@ namespace AbPlcEmulatorForm
         public event EventHandler<ChangedTagsEventArgs> ShowValuesRequested;
 
         bool RetriveValue = false;
+        public bool IsServerOpening { get; set; } = false;
 
         public object ServerInfoGridDataSource
         {
@@ -240,6 +241,10 @@ namespace AbPlcEmulatorForm
                 RetriveValue = false;
                 return;
             }
+            if (IsServerOpening)
+            {
+                return;
+            }
 
             if (e.ColumnIndex == 3)
             {
@@ -362,6 +367,33 @@ namespace AbPlcEmulatorForm
                 foreach (DataGridViewRow row in dgvTags.Rows)
                 {
                     row.Cells[3].Value = values[row.Cells[0].Value.ToString()];
+                }
+            });
+        }
+
+        public void ShowDefaultValues()
+        {
+            this.InvokeIfNeeded(() =>
+            {
+                foreach (DataGridViewRow row in dgvTags.Rows)
+                {
+                    switch ((TagTypes)row.Cells[1].Value)
+                    {
+                        case TagTypes.Sint:
+                        case TagTypes.Int:
+                        case TagTypes.Dint:
+                        case TagTypes.Lint:
+                        case TagTypes.Real:
+                        case TagTypes.Lreal:
+                            row.Cells[3].Value = "0";
+                            break;
+                        case TagTypes.String:
+                            row.Cells[3].Value = "";
+                            break;
+                        case TagTypes.Bool:
+                            row.Cells[3].Value = "False";
+                            break;
+                    }
                 }
             });
         }
