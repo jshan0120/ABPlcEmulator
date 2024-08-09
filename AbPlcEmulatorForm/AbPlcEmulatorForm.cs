@@ -99,6 +99,11 @@ namespace AbPlcEmulatorForm
 
         private void btnOpenServer_Click(object sender, EventArgs e)
         {
+            if (dgvTags.Rows.Count == 0)
+            {
+                Logger.Warning("No Tags");
+            }
+
             if (btnChangeTags.BackColor == Color.Tomato)
             {
                 if (DialogResult.Yes == MessageBox.Show("Open Server Not Reflecting Changes?", "Warning", MessageBoxButtons.YesNo))
